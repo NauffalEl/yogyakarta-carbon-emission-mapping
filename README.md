@@ -1,183 +1,296 @@
-# 🏫 Banyumas School Geospatial & TSP Analysis
+# 🌱 Regional Carbon Emission Mapping in Yogyakarta
 
-A geospatial analysis project for mapping school locations across **Banyumas Regency, Central Java, Indonesia**, combined with **shortest-route analysis using a Brute Force Traveling Salesman Problem (TSP) approach**.
+A geospatial machine learning study for **mapping and predicting areas with high carbon emission potential in the Special Region of Yogyakarta (DIY), Indonesia**, using spatial data extracted from **OpenStreetMap through OSMnx**.
 
-The project visualizes the spatial distribution of schools and explores route optimization between selected educational facilities based on geographic distance.
+The study compares the performance of **Random Forest** and **XGBoost** classification algorithms to identify areas with different levels of carbon emission potential based on spatial characteristics.
 
 ---
 
 ## 📌 Project Overview
 
-The distribution of educational facilities is an important aspect of regional planning and accessibility analysis. This project utilizes geospatial data to map school locations throughout Banyumas Regency.
+Carbon emissions are closely related to spatial characteristics such as transportation networks, built-up areas, land use, and urban activity.
 
-In addition to visualization, the project applies a **Brute Force approach to the Traveling Salesman Problem (TSP)** to evaluate possible school visitation sequences and identify the shortest route among the selected locations.
+This project explores the use of **geospatial data and machine learning** to identify areas with high carbon emission potential in the Special Region of Yogyakarta.
 
-The Brute Force method evaluates all possible permutations of school visitation sequences. Although computationally expensive for a large number of locations, this approach provides an exact solution for smaller datasets and serves as a useful baseline for route optimization studies.
+Spatial data obtained using **OSMnx** is processed into machine learning features and used to train two classification models:
+
+* **Random Forest**
+* **XGBoost**
+
+The models are evaluated using several classification metrics to compare their predictive performance in a geospatial context.
 
 ---
 
 ## 🎯 Objectives
 
-The main objectives of this project are:
+The main objectives of this study are:
 
-* Map school locations across Banyumas Regency.
-* Visualize the spatial distribution of educational facilities.
-* Calculate distances between selected schools.
-* Analyze possible school visitation routes.
-* Identify the shortest route using the Brute Force TSP approach.
-* Provide an initial insight into educational facility accessibility and route optimization.
+* Map spatial characteristics related to carbon emission potential.
+* Process OpenStreetMap-based spatial data using OSMnx.
+* Develop machine learning models for carbon emission potential classification.
+* Compare Random Forest and XGBoost performance.
+* Evaluate models using accuracy, precision, recall, and F1-score.
+* Analyze model predictions using confusion matrices.
+* Visualize predicted high-emission-potential areas spatially.
 
 ---
 
 ## 🗺️ Study Area
 
-**Banyumas Regency, Central Java, Indonesia**
+**Special Region of Yogyakarta (Daerah Istimewa Yogyakarta / DIY), Indonesia**
 
-The analysis focuses on the geographic distribution of schools within Banyumas Regency.
+The analysis is limited to spatial data within the DIY administrative region.
 
 ---
 
-## 🔍 Methodology
+## 🔬 Methodology
 
-The project consists of several main stages:
+The overall methodology consists of several stages.
 
-### 1. Data Collection
+### 1. Spatial Data Collection
 
-School location data is collected in the form of geographic coordinates containing:
+Spatial data is collected from **OpenStreetMap** using the OSMnx library.
 
-* School name
-* Latitude
-* Longitude
-* School location
+Potential spatial features include:
 
-### 2. Geospatial Mapping
+* Road networks
+* Road density
+* Building distribution
+* Points of interest
+* Land-use characteristics
+* Transportation-related features
 
-School coordinates are plotted on an interactive map to visualize the distribution of educational facilities throughout Banyumas Regency.
+The extracted spatial information is transformed into numerical features suitable for machine learning.
 
-### 3. Distance Calculation
+---
 
-The geographic distance between schools is calculated based on their coordinates.
+### 2. Data Preprocessing
 
-A distance matrix is generated to represent the distance between every pair of selected schools.
+The spatial dataset is prepared through:
 
-### 4. Brute Force TSP
+* Data cleaning
+* Geometry validation
+* Coordinate system transformation
+* Feature extraction
+* Missing-value handling
+* Feature normalization where required
+* Target-label preparation
 
-The Traveling Salesman Problem is formulated as:
+The processed spatial data is then converted into a machine-learning-ready dataset.
 
-> Find the shortest possible route that visits every selected school exactly once and returns to the starting school.
+---
 
-The Brute Force approach generates and evaluates all possible permutations of school visitation sequences.
+### 3. Feature Engineering
 
-For `n` locations, the number of possible routes grows approximately as:
+Spatial features are generated from the OSM-based data to represent characteristics that may be associated with carbon emission potential.
+
+Examples include:
 
 ```text
-(n - 1)!
+Road Density
+Building Density
+Road Length
+POI Density
+Intersection Density
+Land-use Characteristics
 ```
 
-Therefore, the computational complexity becomes very high as the number of locations increases.
-
-### 5. Route Optimization
-
-Each possible route is evaluated based on its total distance.
-
-The route with the minimum total distance is selected as the optimal route for the tested dataset.
+These features are used as independent variables for the classification models.
 
 ---
 
-## 📊 Analysis Workflow
+### 4. Machine Learning Models
+
+Two supervised machine learning algorithms are compared.
+
+#### Random Forest
+
+Random Forest is an ensemble learning algorithm that combines multiple decision trees to produce a classification result.
+
+Its advantages for this type of analysis include:
+
+* Ability to model nonlinear relationships
+* Robustness to noisy features
+* Ability to capture feature interactions
+* Relatively low preprocessing requirements
+
+#### XGBoost
+
+XGBoost is a gradient boosting algorithm that sequentially builds decision trees to minimize prediction errors.
+
+It is used as a second model to provide a performance comparison against Random Forest.
+
+---
+
+## 📊 Model Evaluation
+
+The models are evaluated using several classification metrics.
+
+### Accuracy
+
+Measures the proportion of correctly classified observations.
 
 ```text
-School Location Data
-        │
-        ▼
-Data Cleaning & Preparation
-        │
-        ▼
-Latitude & Longitude
-        │
-        ▼
-Geospatial Visualization
-        │
-        ▼
-Distance Matrix
-        │
-        ▼
-Generate TSP Permutations
-        │
-        ▼
-Calculate Route Distances
-        │
-        ▼
-Find Minimum Distance
-        │
-        ▼
-Optimal School Route
+Accuracy = Correct Predictions / Total Predictions
+```
+
+### Precision
+
+Measures the proportion of predicted positive observations that are actually positive.
+
+```text
+Precision = TP / (TP + FP)
+```
+
+### Recall
+
+Measures the proportion of actual positive observations correctly identified by the model.
+
+```text
+Recall = TP / (TP + FN)
+```
+
+### F1-Score
+
+Provides a harmonic mean between precision and recall.
+
+```text
+F1 = 2 × (Precision × Recall) / (Precision + Recall)
+```
+
+### Confusion Matrix
+
+The confusion matrix is used to examine the distribution of:
+
+* True Positive
+* True Negative
+* False Positive
+* False Negative
+
+---
+
+## 🔄 Analysis Workflow
+
+```text
+OpenStreetMap
+      │
+      ▼
+     OSMnx
+      │
+      ▼
+Spatial Data Extraction
+      │
+      ▼
+Data Cleaning & Preprocessing
+      │
+      ▼
+Spatial Feature Engineering
+      │
+      ▼
+Feature Dataset
+      │
+      ├───────────────┐
+      ▼               ▼
+Random Forest      XGBoost
+      │               │
+      └───────┬───────┘
+              ▼
+       Model Evaluation
+              │
+              ▼
+ Accuracy • Precision
+ Recall • F1-Score
+ Confusion Matrix
+              │
+              ▼
+     Spatial Prediction
+              │
+              ▼
+Carbon Emission Potential Map
 ```
 
 ---
 
-## 🧠 Algorithm
+## 🧠 Model Comparison
 
-### Brute Force TSP
+The study compares Random Forest and XGBoost using the same dataset and evaluation framework.
 
-The Brute Force algorithm systematically checks every possible route.
+| Metric    | Random Forest | XGBoost |
+| --------- | ------------: | ------: |
+| Accuracy  |             — |       — |
+| Precision |             — |       — |
+| Recall    |             — |       — |
+| F1-Score  |             — |       — |
 
-Simplified process:
+> The table can be populated with the final experimental results.
 
-```python
-best_route = None
-best_distance = float("inf")
+Rather than relying on a single metric, the comparison considers multiple evaluation measures to provide a broader view of model performance.
 
-for route in all_possible_routes:
-    distance = calculate_total_distance(route)
+---
 
-    if distance < best_distance:
-        best_distance = distance
-        best_route = route
+## 🗺️ Spatial Prediction
+
+After model training, the selected spatial features are passed through the trained classifiers to generate predictions for geographic areas within DIY.
+
+The resulting predictions can be visualized as a spatial map showing areas classified according to their carbon emission potential.
+
+Example conceptual output:
+
+```text
+┌───────────────────────────────────┐
+│       YOGYAKARTA REGION           │
+│                                   │
+│   Low Potential     Medium        │
+│        ███            ███         │
+│                                   │
+│                 High Potential    │
+│                     █████         │
+│                                   │
+│        Spatial Prediction Map     │
+└───────────────────────────────────┘
 ```
-
-This guarantees the shortest route for the tested locations because every possible permutation is evaluated.
-
-However, the factorial growth of possible routes makes the method unsuitable for large-scale TSP problems.
 
 ---
 
 ## 🛠️ Technologies
 
-Depending on the implementation, this project can utilize:
-
 * **Python**
-* **Pandas** — Data processing
-* **NumPy** — Numerical computation
+* **OSMnx** — OpenStreetMap spatial data extraction
 * **GeoPandas** — Geospatial data processing
-* **Folium** — Interactive map visualization
-* **Matplotlib** — Data visualization
-* **Scikit-learn** — Supporting analytical tasks
+* **Pandas** — Data manipulation
+* **NumPy** — Numerical computation
+* **Scikit-learn** — Machine learning and evaluation
+* **XGBoost** — Gradient boosting classification
+* **Matplotlib** — Visualization
+* **Seaborn** — Statistical visualization
+* **Jupyter Notebook** — Experimentation and analysis
 
 ---
 
 ## 📁 Project Structure
 
 ```text
-banyumas-school-geospatial-tsp/
+yogyakarta-carbon-emission-mapping/
 │
 ├── data/
-│   ├── schools.csv
+│   ├── raw/
 │   └── processed/
 │
 ├── notebooks/
-│   └── analysis.ipynb
+│   └── carbon_emission_analysis.ipynb
 │
 ├── src/
-│   ├── data_processing.py
-│   ├── distance.py
-│   ├── tsp_bruteforce.py
+│   ├── data_collection.py
+│   ├── preprocessing.py
+│   ├── feature_engineering.py
+│   ├── random_forest.py
+│   ├── xgboost_model.py
 │   └── visualization.py
 │
 ├── outputs/
-│   ├── school_map.html
-│   ├── distance_matrix.csv
-│   └── optimal_route.png
+│   ├── maps/
+│   ├── metrics/
+│   └── figures/
 │
 ├── requirements.txt
 ├── README.md
@@ -186,102 +299,77 @@ banyumas-school-geospatial-tsp/
 
 ---
 
-## 📍 Example Dataset
+## 📈 Expected Outputs
 
-Example school data:
+The project produces several analytical outputs:
 
-| School   | Latitude | Longitude |
-| -------- | -------: | --------: |
-| School A |  -7.4241 |  109.2396 |
-| School B |  -7.4258 |  109.2412 |
-| School C |  -7.4281 |  109.2358 |
-| School D |  -7.4310 |  109.2385 |
+### 1. Spatial Distribution Map
 
-*The actual dataset may contain additional schools and attributes.*
+Visualization of OSM-based spatial features across DIY.
 
----
+### 2. Feature Dataset
 
-## 📈 Expected Output
+Processed spatial features used as input for machine learning.
 
-The project produces several outputs:
+### 3. Model Performance
 
-### School Distribution Map
+Evaluation results for:
 
-An interactive map displaying school locations across Banyumas Regency.
+* Accuracy
+* Precision
+* Recall
+* F1-score
 
-### Distance Matrix
+### 4. Confusion Matrix
 
-A matrix containing the calculated distance between each pair of selected schools.
+Visualization of classification errors and correctly classified observations.
 
-### Optimal Route
+### 5. Carbon Emission Potential Map
 
-The shortest route obtained after evaluating all possible school visitation sequences.
-
-Example:
-
-```text
-Start
-  ↓
-School A
-  ↓
-School C
-  ↓
-School D
-  ↓
-School B
-  ↓
-School A
-```
-
-The total route distance is calculated based on the selected distance metric.
+Spatial visualization of model predictions across the study area.
 
 ---
 
-## ⚠️ Limitations
+## ⚠️ Scope & Limitations
 
-The Brute Force approach has significant computational limitations.
+This study focuses specifically on the relationship between **geospatial characteristics and carbon emission potential**.
 
-For `n` schools, the number of possible routes increases factorially:
+The analysis is limited to spatial data from the Special Region of Yogyakarta and does not incorporate several external factors, including:
 
-```text
-3 schools  → 2!     = 2 routes
-5 schools  → 4!     = 24 routes
-10 schools → 9!     = 362,880 routes
-15 schools → 14!    = 87,178,291,200 routes
-```
+* Weather conditions
+* Socioeconomic variables
+* Energy consumption
+* Population behavior
+* Industrial emission measurements
+* Government policies
+* Temporal changes in emissions
 
-Therefore, this approach is primarily suitable for:
-
-* Small datasets
-* Algorithm demonstrations
-* Baseline optimization
-* Exact TSP solutions for limited locations
-
-For larger datasets, more scalable approaches such as **Nearest Neighbor, Dynamic Programming, Genetic Algorithms, Simulated Annealing, or other heuristic/metaheuristic methods** can be explored.
+Therefore, the resulting predictions should be interpreted within the context of the available geospatial features rather than as direct measurements of actual carbon emissions.
 
 ---
 
 ## 🚀 Future Development
 
-Potential improvements include:
+Several improvements can be explored in future research:
 
-* Integrating OpenStreetMap road networks.
-* Using actual road distance instead of straight-line distance.
-* Adding school categories and education levels.
+* Integrating official carbon emission datasets.
+* Incorporating population density and socioeconomic variables.
+* Adding weather and climate data.
+* Including temporal datasets for time-series analysis.
+* Using satellite imagery for land-use analysis.
+* Comparing additional machine learning algorithms.
+* Applying hyperparameter optimization.
+* Using SHAP for model interpretability.
 * Developing an interactive GIS dashboard.
-* Comparing Brute Force with heuristic algorithms.
-* Implementing Genetic Algorithm for larger datasets.
-* Adding travel time estimation.
-* Developing route optimization based on real road networks.
-* Expanding the analysis to all educational facilities in Banyumas Regency.
+* Integrating real-time or periodically updated OSM data.
 
 ---
 
 ## 📚 Research Context
 
-This project demonstrates how **Geographic Information Systems (GIS)** and **combinatorial optimization** can be combined to analyze the spatial distribution and accessibility of educational facilities.
+This project demonstrates the integration of **Geographic Information Systems (GIS), OpenStreetMap data, spatial feature engineering, and machine learning** for environmental analysis.
 
-The combination of school mapping and TSP-based route optimization provides a computational baseline for studying potential routes between educational facilities.
+The comparison between Random Forest and XGBoost provides an empirical framework for evaluating how different tree-based ensemble methods perform when applied to geospatial classification problems.
 
 ---
 
